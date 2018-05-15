@@ -31,6 +31,13 @@ namespace Workout_Planner.Controllers
             return View();
         }
 
+        public IActionResult AddProgram()
+        {
+            ViewData["Message"] = "Add a Program.";
+
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
