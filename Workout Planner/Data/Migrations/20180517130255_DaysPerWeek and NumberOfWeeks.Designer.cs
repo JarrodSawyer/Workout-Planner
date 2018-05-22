@@ -11,9 +11,10 @@ using Workout_Planner.Data;
 namespace Workout_Planner.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180517130255_DaysPerWeek and NumberOfWeeks")]
+    partial class DaysPerWeekandNumberOfWeeks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,8 +189,7 @@ namespace Workout_Planner.Data.Migrations
 
                     b.Property<int>("NumberOfWeeks");
 
-                    b.Property<string>("Title")
-                        .IsRequired();
+                    b.Property<string>("Title");
 
                     b.HasKey("ID");
 

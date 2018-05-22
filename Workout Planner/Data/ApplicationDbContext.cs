@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Workout_Planner.Models;
+using Workout_Planner.Models.Workout;
 
 namespace Workout_Planner.Data
 {
@@ -22,5 +23,7 @@ namespace Workout_Planner.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<Workout_Planner.Models.Workout.Program> Program { get; set; }
     }
 }
