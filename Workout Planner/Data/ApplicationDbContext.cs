@@ -25,5 +25,13 @@ namespace Workout_Planner.Data
         }
 
         public DbSet<Workout_Planner.Models.Workout.Program> Program { get; set; }
+
+        public DbSet<Workout_Planner.Models.Workout.ProgramWeek> ProgramWeek { get; set; }
+
+        public DbSet<Workout_Planner.Models.Workout.Workout> Workout { get; set; }
+
+        public DbSet<Workout_Planner.Models.Workout.WorkoutDay> WorkoutDay { get; set; }
+
+        public DbSet<Workout_Planner.Models.Workout.Exercise> Exercise { get; set; }
     }
 }

@@ -11,9 +11,10 @@ using Workout_Planner.Data;
 namespace Workout_Planner.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180522150530_ProgramWeek")]
+    partial class ProgramWeek
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,18 +180,6 @@ namespace Workout_Planner.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Workout_Planner.Models.Workout.Exercise", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Exercise");
-                });
-
             modelBuilder.Entity("Workout_Planner.Models.Workout.Program", b =>
                 {
                     b.Property<int>("ID")
@@ -220,52 +209,6 @@ namespace Workout_Planner.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ProgramWeek");
-                });
-
-            modelBuilder.Entity("Workout_Planner.Models.Workout.Workout", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("LastCompleted");
-
-                    b.Property<int>("ProgamWeekID");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Workout");
-                });
-
-            modelBuilder.Entity("Workout_Planner.Models.Workout.WorkoutDay", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<double>("EstimatedOneRepMax");
-
-                    b.Property<int>("ExerciseID");
-
-                    b.Property<int>("GoalRPE");
-
-                    b.Property<int>("GoalReps");
-
-                    b.Property<double>("GoalWeight");
-
-                    b.Property<double>("GoalWeightPercentage");
-
-                    b.Property<int>("LastCompletedID");
-
-                    b.Property<int>("NumberSets");
-
-                    b.Property<int>("ProgressionPercentage");
-
-                    b.Property<int>("WorkoutID");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("WorkoutDay");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
