@@ -10,5 +10,6 @@ namespace Workout_Planner.Models.Workout
         public int ID { get; set; }
         public int ProgramID { get; set; }
         public string Title { get; set; }
+        public int WeekSequenceNum { get; set; }
     }
 }

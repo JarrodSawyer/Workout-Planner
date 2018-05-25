@@ -18,5 +18,6 @@ namespace Workout_Planner.Models.Workout
         public int GoalRPE { get; set; }
         public int ProgressionPercentage { get; set; }
         public int LastCompletedID { get; set; }
+        public int ExerciseSequenceNum { get; set; }
     }
 }

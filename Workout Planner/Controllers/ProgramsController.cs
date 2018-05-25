@@ -40,6 +40,13 @@ namespace Workout_Planner.Controllers
                 return NotFound();
             }
 
+            ViewBag.Program = program;
+
+            var programWeeks = await (from w in _context.ProgramWeek
+                                     where (w.ProgramID == id)
+                                     select w).OrderBy(p => p.WeekSequenceNum).ToListAsync();
+            ViewBag.ProgramWeeks = programWeeks;
+
             return View(program);
         }
 
@@ -47,6 +54,21 @@ namespace Workout_Planner.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        private void CreateProgramWeeksForProgram(int numberOfWeeks, int programID, int startingNumberOfWeeks = 1)
+        {
+            int i = startingNumberOfWeeks;
+
+            for (i = startingNumberOfWeeks; i <= numberOfWeeks; i++)
+            {
+                ProgramWeek week = new ProgramWeek();
+                week.ProgramID = programID;
+                week.Title = "Week " + i;
+                week.WeekSequenceNum = i;
+                    
+                _context.Add(week);
+            }
         }
 
         // POST: Programs/Create
@@ -59,7 +81,13 @@ namespace Workout_Planner.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(program);
+
                 await _context.SaveChangesAsync();
+
+                CreateProgramWeeksForProgram(program.NumberOfWeeks, program.ID);
+
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(program);
@@ -81,12 +109,28 @@ namespace Workout_Planner.Controllers
             return View(program);
         }
 
+        private void UpdateProgramWeeks(int programID, int prevNumWeeks, int newNumWeeks)
+        {
+            
+            if(prevNumWeeks < newNumWeeks)
+            {
+                CreateProgramWeeksForProgram(newNumWeeks, programID, prevNumWeeks+1);
+            }
+            else if (prevNumWeeks > newNumWeeks)
+            {
+                var weekRange = (from w in _context.ProgramWeek
+                                 where (w.ProgramID == programID)
+                                 select w).OrderByDescending(p => p.WeekSequenceNum).Take(prevNumWeeks-newNumWeeks);
+                _context.ProgramWeek.RemoveRange(weekRange);
+            }
+        }
+
         // POST: Programs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title")] Workout_Planner.Models.Workout.Program program)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,DaysPerWeek,NumberOfWeeks")] Workout_Planner.Models.Workout.Program program)
         {
             if (id != program.ID)
             {
@@ -97,6 +141,15 @@ namespace Workout_Planner.Controllers
             {
                 try
                 {
+                    var prevNumWeeks =
+                        (from w in _context.ProgramWeek
+                         where (w.ProgramID == program.ID)
+                         select w).Count();
+                        // Does not work!
+                        //_context.Entry(program).OriginalValues.GetValue<int>("NumberOfWeeks");
+                    UpdateProgramWeeks(program.ID,
+                        prevNumWeeks,
+                        program.NumberOfWeeks);
                     _context.Update(program);
                     await _context.SaveChangesAsync();
                 }
